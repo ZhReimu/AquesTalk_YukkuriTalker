@@ -1,5 +1,7 @@
 @file:Suppress("UNUSED")
 
+package com.mrx
+
 import com.sun.jna.Native
 import com.sun.jna.Pointer
 import com.sun.jna.Structure
@@ -123,54 +125,55 @@ interface AquesTalk : StdCallLibrary {
                 return voice
             }
 
+    }
+
+    /**
+     *  音色数据结构体
+     * @property bas Int 基本素片 F1E/F2E/M1E (0/1/2)
+     * @property spd Int 話速 	50-300 default:100
+     * @property vol Int 音量 	0-300 default:100
+     * @property pit Int 高さ 	20-200 default:基本素片に依存
+     * @property acc Int アクセント 0-200 default:基本素片に依存
+     * @property lmd Int 音程１ 	0-200 default:100
+     * @property fsc Int 音程２(サンプリング周波数) 50-200 default:100
+     */
+    @Structure.FieldOrder(value = ["bas", "spd", "vol", "pit", "acc", "lmd", "fsc"])
+    open class AQTK_VOICE : Structure() {
+        @JvmField
+        var bas = 0
+
+        @JvmField
+        var spd = 100
+
+        @JvmField
+        var vol = 100
+
+        @JvmField
+        var pit = 0
+
+        @JvmField
+        var acc = 0
+
+        @JvmField
+        var lmd = 100
+
+        @JvmField
+        var fsc = 100
+
         /**
-         *  音色数据结构体
-         * @property bas Int 基本素片 F1E/F2E/M1E (0/1/2)
-         * @property spd Int 話速 	50-300 default:100
-         * @property vol Int 音量 	0-300 default:100
-         * @property pit Int 高さ 	20-200 default:基本素片に依存
-         * @property acc Int アクセント 0-200 default:基本素片に依存
-         * @property lmd Int 音程１ 	0-200 default:100
-         * @property fsc Int 音程２(サンプリング周波数) 50-200 default:100
+         * JNA 指针引用对象
          */
-        @Structure.FieldOrder(value = ["bas", "spd", "vol", "pit", "acc", "lmd", "fsc"])
-        open class AQTK_VOICE : Structure() {
-            @JvmField
-            var bas = 0
+        object ByReference : AQTK_VOICE(), Structure.ByReference
 
-            @JvmField
-            var spd = 100
+        /**
+         * JNA 值引用对象
+         */
+        object ByValue : AQTK_VOICE(), Structure.ByValue
 
-            @JvmField
-            var vol = 100
-
-            @JvmField
-            var pit = 0
-
-            @JvmField
-            var acc = 0
-
-            @JvmField
-            var lmd = 100
-
-            @JvmField
-            var fsc = 100
-
-            /**
-             * JNA 指针引用对象
-             */
-            object ByReference : AQTK_VOICE(), Structure.ByReference
-
-            /**
-             * JNA 值引用对象
-             */
-            object ByValue : AQTK_VOICE(), Structure.ByValue
-
-            override fun toString(): String {
-                return "AQTK_VOICE(bas=$bas, spd=$spd, vol=$vol, pit=$pit, acc=$acc, lmd=$lmd, fsc=$fsc)"
-            }
-
+        override fun toString(): String {
+            return "AQTK_VOICE(bas=$bas, spd=$spd, vol=$vol, pit=$pit, acc=$acc, lmd=$lmd, fsc=$fsc)"
         }
+
     }
 
     /**
@@ -295,4 +298,6 @@ interface AquesTalk : StdCallLibrary {
             }
         }
     }
+
+    class AquesException(msg: String) : Exception(msg)
 }
