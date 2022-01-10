@@ -16,6 +16,11 @@ repositories {
 dependencies {
     // https://mvnrepository.com/artifact/net.java.dev.jna/jna
     implementation("net.java.dev.jna:jna:5.10.0")
+    // https://mvnrepository.com/artifact/org.apache.lucene/lucene-analyzers-kuromoji
+    // implementation("org.apache.lucene:lucene-analyzers-kuromoji:8.11.1")
+    // https://mvnrepository.com/artifact/com.atilika.kuromoji/kuromoji-ipadic
+    implementation("com.atilika.kuromoji:kuromoji-ipadic:0.9.0")
+
 
     testImplementation(kotlin("test"))
 }
